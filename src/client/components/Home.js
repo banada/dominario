@@ -51,10 +51,22 @@ const cards = [
         rules: [
             {
                 text: 'When this creature is the target of a spell or ability, destroy all merfolk.',
-                ability: (scope) => {
-                    let cards = scope.state.cards;
-                    cards = cards.filter(c => c.subtype[0] !== scope.state.Elements.h1[0]);
-                    scope.setState({cards});
+
+                /*
+                 * Probably good to include opponent somehow so that abilities
+                 * can be used on either player
+                 *
+                 * e.g. ability: (player, opponent) => {...}
+                 */
+                ability: (player) => {
+
+                    const playerCards = player.state.cards.filter(c =>
+                        c.subtype[0] !== player.state.Elements.h1[0]
+                    );
+
+                    player.setState({
+                        cards: playerCards
+                    });
                 }
             }
         ],
@@ -74,9 +86,8 @@ class Home extends React.Component {
         }
     }
 
-    runFunction = (func) => {
-        const f = new Function('scope', func);
-        f(this);
+    applyAbilities = (card) => {
+        card.rules.forEach(rule => rule.ability(this));
     }
 
     render() {
@@ -92,12 +103,12 @@ class Home extends React.Component {
             );
         });
 
-        const player1Cards = this.state.cards.map((c, idx) => {
+        const player1Cards = this.state.cards.map((c) => {
             const [subtypeName, Tag, styles] = c.subtype;
             // Iterate rules
-            const rules = c.rules.map((rule) => {
+            const rules = c.rules.map((rule, i) => {
                 return (
-                    <React.Fragment key={idx}>
+                    <React.Fragment key={i}>
                         <p>
                             {rule.text}
                         </p>
@@ -106,20 +117,12 @@ class Home extends React.Component {
                 );
             });
 
-            // TODO Assuming click events
-            let clickText = '';
-            c.rules.forEach((rule) => {
-                // Create an IIFE
-                clickText += `(${rule.ability})(scope)`;
-
-            });
-
             return (
                 <div
-                    key={idx}
+                    key={c.id}
                     id={c.id}
                     className="border border-gray-500 bg-gray-200 w-1/3 h-auto p-4 m-2"
-                    onClick={() => this.runFunction(clickText)}
+                    onClick={() => this.applyAbilities(c)}
                 >
                     <p className="font-bold">{c.name}</p>
                     <img
@@ -159,6 +162,8 @@ class Home extends React.Component {
         );
     }
 }
+
+
 
 export default Home;
 
