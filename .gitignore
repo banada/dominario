@@ -1,0 +1,7 @@
+dist/
+node_modules/
+package-lock.json
+*/**/*bundle.js*
+loadable-stats.json
+.env
+backups/
