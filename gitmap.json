@@ -1,1 +1,1 @@
-{}
+{"nodes":[{"data":{"id":"7b8a026b-c5c7-4837-9c96-ee13ec637d4b","name":"Test"},"position":{"x":-49.41084224263274,"y":-36.83353694450805},"group":"nodes","classes":""},{"data":{"name":"B","id":"5ee724a5-3474-451c-b2ce-f7286d730fcb"},"position":{"x":221.6120649468772,"y":47.780871120900514},"group":"nodes","classes":""}],"edges":[{"data":{"source":"7b8a026b-c5c7-4837-9c96-ee13ec637d4b","target":"5ee724a5-3474-451c-b2ce-f7286d730fcb","id":"c915fe8a-0c6a-44ed-b5ba-86904f9814c4"},"position":{"x":0,"y":0},"group":"edges","classes":""}]}
